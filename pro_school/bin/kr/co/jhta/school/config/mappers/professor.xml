@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="professor">
+<typeAlias alias="professor" type="kr.co.jhta.school.vo.Professor"/>
+<resultMap class="professor" id="profMap">
+	<result column="prof_no" property="no"/>
+	<result column="prof_name" property="name"/>
+	<result column="prof_position" property="position"/>
+	<result column="dept_no" property="dept.no"/>
+</resultMap>
+
+<select id="getProfessorByDept" parameterClass="int" resultMap="profMap">
+	select *
+	from school_professor
+	where dept_no = #value#
+</select>
+<select id="getProfessor" parameterClass="int" resultMap="profMap">
+	select *
+	from school_professor
+	where prof_no = #value#
+</select>
+</sqlMap>

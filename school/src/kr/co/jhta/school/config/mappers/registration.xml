@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="registration">
+<typeAlias alias="registration" type="kr.co.jhta.school.vo.Registration"/>
+<resultMap class="registration" id="regMap">
+	<result column="course_score" property="score"/>
+	<result column="stud_no" property="student.no"/>
+	<result column="course_no" property="course.no"/>
+</resultMap>
+<select id="getRegistrationByStudent" parameterClass="int" resultMap="regMap">
+	select *
+	from school_registrations
+	where stud_no = #value#
+</select>
+<select id="getRegistrationByCourse" parameterClass="int" resultMap="regMap">
+	select *
+	from school_registrations
+	where course_no = #value#
+</select>
+<insert id="addRegistration" parameterClass="registration">
+	insert into school_registrations (stud_no, course_no)
+	values (#student.no#, #course.no#)
+</insert>
+<delete id="cancelCourse" parameterClass="int">
+	delete from school_registrations
+	where stud_no = #value# 
+</delete>
+</sqlMap>

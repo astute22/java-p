@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="acco">
+	<typeAlias alias="Acc" type="vo.AccountVO" />
+
+	<resultMap id="AccMap" class="Acc">
+		<result column="acc_no" property="no" />
+		<result column="acc_title" property="title" />
+		<result column="acc_owner" property="owner" />
+		<result column="acc_balance" property="balance" />
+		<result column="acc_rates" property="rates" />
+		<result column="acc_createdate" property="createDate" />
+	</resultMap>
+	<insert id="addAccount" parameterClass="vo.AccountVO">
+		insert into tb_accounts
+		(acc_no, acc_title, acc_owner, acc_balance, acc_rates, acc_createdate)
+		values
+		(acc_seq.nextval, #title#, #owner#, #balance#, #rates#, sysdate)
+	</insert>
+	<select id="getAccountByNo" parameterClass="int" resultMap="AccMap">
+		select *
+		from tb_accounts
+		where acc_no = #value#
+	</select>
+	<select id="getAccountByOwner" parameterClass="string" resultMap="AccMap">
+		select *
+		from tb_accounts
+		where acc_owner = #value#
+	</select>
+	<delete id="deleteAccountByNo" parameterClass="int">
+		delete from tb_accounts
+		where acc_no = #value# 
+	</delete>
+	<select id="getAllAccount" resultMap="AccMap">
+		select *
+		from tb_accounts
+		order by acc_no
+	</select>
+	
+</sqlMap>

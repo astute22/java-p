@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="subject">
+<typeAlias alias="subject" type="kr.co.jhta.school.vo.Subject"/>
+<resultMap class="subject" id="subMap">
+	<result column="sub_no" property="no"/>
+	<result column="sub_name" property="name"/>
+	<result column="sub_type" property="type"/>
+	<result column="dept_no" property="dept.no"/>
+</resultMap>
+<select id="getAllSubjects" resultMap="subMap">
+	select *
+	from school_subjects
+</select>
+<select id="getSubjectsByDept" parameterClass="int" resultMap="subMap">
+	select *
+	from school_subjects
+	where dept_no = #value#
+</select>
+<select id="getSubjectByNo" parameterClass="int" resultMap="subMap">
+	select *
+	from school_subjects
+	where dept_no = #value#
+</select>
+
+</sqlMap>

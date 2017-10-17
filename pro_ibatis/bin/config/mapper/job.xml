@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ppq">
+	<!-- 
+		HashMap<String, Object> x = new HsahMap<>() 객체 생성
+		x.put("job_id", OOO)
+		x.put("job_title", OOO) 
+	-->
+	<select id="getJobById" parameterClass="string" resultClass="hashmap">
+		select job_id, job_title, min_salary, max_salary
+		from jobs
+		where job_id = #value#
+	</select>
+</sqlMap>

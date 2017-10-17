@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prd">
+	<typeAlias alias="Pro" type="kr.co.jhta.store.vo.Product" />
+	<resultMap class="Pro" id="ProMap">
+		<result column="pro_no" property="no" />
+		<result column="pro_name" property="name" />
+		<result column="pro_maker" property="maker" />
+		<result column="pro_price" property="price" />
+		<result column="pro_qty" property="qty" />
+		<result column="pro_regdate" property="regdate" />
+	</resultMap>
+	<!-- 뉴-상품등록 -->
+	<insert id="addProduct" parameterClass="Pro">
+		insert into tb_store_product
+		(pro_no, pro_name, pro_maker, pro_price, pro_qty, pro_regdate)
+		values
+		(pro_seq.nextval,#name#,#maker#,#price#,#qty#,sysdate)
+	</insert>
+	<!-- 등록된 모든 상품 조회 -->
+	<select id="getAllProducts" resultMap="ProMap">
+		select *
+		from tb_store_product
+		order by pro_no
+	</select>
+	<!-- 이름으로 상품조회 -->
+	<select id="searchProductsByName" parameterClass="string" resultMap="ProMap">
+		select *
+		from tb_store_product
+		where pro_name = #value#
+	</select>
+	<!-- 번호로 상품 조회 -->
+	<select id="searchProductByNo" parameterClass="int" resultMap="ProMap">
+		select *
+		from tb_store_product
+		where pro_no = #value#
+	</select>
+	<!-- 재고변경 -->
+	<update id="updateProduct" parameterClass="Pro">
+		update tb_store_product
+		set pro_qty = #qty#
+		where pro_no = #no#
+	</update>
+
+</sqlMap>

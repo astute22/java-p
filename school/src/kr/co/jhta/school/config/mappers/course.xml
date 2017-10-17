@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="course">
+<typeAlias alias="course" type="kr.co.jhta.school.vo.Course"/>
+<resultMap class="course" id="courseMap">
+	<result column="course_no" property="no"/>
+	<result column="course_room" property="room"/>
+	<result column="course_quota" property="quota"/>
+	<result column="course_reg_num" property="regNum"/>
+	<result column="sub_no" property="subject.no"/>
+	<result column="prof_no" property="professor.no"/>
+</resultMap>
+<insert id="addCourse" parameterClass="course">
+	insert into school_courses (course_no, course_room, course_quota, course_reg_num, sub_no, prof_no)
+	values (cou_seq.nextval, #room#, #quota#, #regNum#, #subject.no#, #professor.no#)
+</insert>
+<select id="getAllCourse" resultMap="courseMap">
+	select *
+	from school_courses
+</select>
+<select id="getCourseByDept" parameterClass="int" resultClass="course">
+	select A.course_no			as no, 
+		   A.course_room		as room, 
+		   A.course_quota		as quota, 
+		   A.course_reg_num		as regNum, 
+		   A.sub_no				as "subject.no",
+		   B.sub_name			as "subject.name",
+		   B.sub_type			as "subject.type", 
+		   A.prof_no			as "professor.no"
+	from school_courses A, school_subject B
+	where A.sub_no = B.sub_no
+	and B.dept_no = #value#
+</select>
+<select id="getCourseByProfessor" parameterClass="int" resultMap="courseMap">
+	select *
+	from school_courses
+	where prof_no = #value#
+</select>
+<select id="getCurrentRegistedCourse" parameterClass="int" resultMap="courseMap">
+	select A.course_no, A.course_room, A.course_quota, A.course_reg_num, A.sub_no, A.prof_no
+	from school_courses A, school_registrations B
+	where A.course_no = B.course_no 
+	and B.stud_no = #value#
+</select>
+<select id="getCourse" parameterClass="int" resultMap="courseMap">
+	select *
+	from school_courses
+	where course_no = #value#
+</select>
+<update id="addRegNum" parameterClass="course">
+	update school_courses 
+	set course_reg_num = #regNum#
+	where course_no = #no#
+</update>
+</sqlMap>
